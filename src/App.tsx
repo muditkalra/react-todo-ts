@@ -5,26 +5,23 @@ import TodoItem, { TodoItemType } from "./components/TodoItem";
 export default function App() {
 
 	const [todos, setTodos] = useState<TodoItemType[]>([]);
-	const [title, setTitle] = useState<string>('');
-	const [content, setContent] = useState<string>('');
+	const [title, setTitle] = useState<TodoItemType['title']>('');
+	const [content, setContent] = useState<TodoItemType['content']>('');
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		// const form = new FormData(e.target as HTMLFormElement);
-		// const title = form.get('title') as string;
-		// const content = form.get('content') as string;
-		setTodos((prev) => [...prev, { id: Math.random() * 100, content: content, title: title, isCompleted: false }]);
+		setTodos((prev) => [...prev, { id: Math.random() * 100, content, title, isCompleted: false }]);
 		setContent('');
 		setTitle('');
 	}
 
-	const handleCompletion = (id: number) => {
+	const handleCompletion = (id: TodoItemType['id']) => {
 		const completedTodo = todos.find((todo) => todo.id === id) as TodoItemType;
 		completedTodo.isCompleted = !completedTodo.isCompleted;
 		setTodos([...todos]);
 	}
 
-	const handleDelete = (id: number): void => {
+	const handleDelete = (id: TodoItemType['id']): void => {
 		const remainingTodos = todos.filter((todo) => todo.id !== id) as TodoItemType[];
 		setTodos([...remainingTodos]);
 	}
